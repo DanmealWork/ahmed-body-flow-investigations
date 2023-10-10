@@ -1,0 +1,9 @@
+name: Run
+
+on: 
+  workflow_dispatch:
+
+jobs:
+  build-push-docker-image:
+    uses: ./.github/workflows/build-push-docker-image.yml
+    secrets: inherit
