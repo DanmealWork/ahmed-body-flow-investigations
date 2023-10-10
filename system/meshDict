@@ -1,0 +1,162 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                |
+| \\      /  F ield         | cfMesh: A library for mesh generation          | 
+|  \\    /   O peration     |                                                |
+|   \\  /    A nd           | Author: Franjo Juretic                         | 
+|    \\/     M anipulation  | E-mail: franjo.juretic@c-fields.com            |
+\*---------------------------------------------------------------------------*/
+
+FoamFile
+{
+    version   2.0;
+    format    ascii;
+    class     dictionary;
+    location  "system";
+    object    meshDict;
+}
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+
+surfaceFile "ahmedbodywithbox.fms";
+maxCellSize 0.3;
+//boundaryCellSize 0.3;
+keepCellsIntersectingBoundary 0;
+
+objectRefinements
+{
+    mainBox
+    {
+        type box;
+        cellSize   0.01; //[m]
+        centre    (1.125 0 0); //[m]
+        lengthX      2.5; //[m]
+        lengthY      1; //[m]
+        lengthZ      1.5; //[m]
+    }
+/*    
+    ahmedBox1
+    {
+    	type box;
+        cellSize   0.0025; //[m]
+        centre    (0.522 0.169 0); //[m]
+        lengthX      1.1; //[m]
+        lengthY      0.4; //[m]
+        lengthZ      0.4; //[m]  
+    }*/ 	
+    
+    
+/*    
+    ahmedBox2
+    {
+    	type box;
+        cellSize   0.005; //[m]
+        centre    (0.65 0.169 0); //[m]
+        lengthX      1.45; //[m]
+        lengthY      0.5; //[m]
+        lengthZ      0.5; //[m]
+    }*/     	
+    	       
+/*    
+    wakeBox
+    {
+    	type box;
+        cellSize   0.005; //[m]
+        centre    (1.175 0.025 0); //[m]
+        lengthX      0.25; //[m]
+        lengthY      0.5; //[m]
+        lengthZ      0.5; //[m]
+    }*/ 	
+    	
+}
+
+localRefinement
+{
+
+    solid
+    {
+        cellSize 0.0025;
+        refinementThickness  0.01;//[m]
+    }
+
+}
+
+
+
+boundaryLayers
+{	
+
+    patchBoundaryLayers
+    {
+        solid
+        {
+             nLayers    5;
+             thicknessRatio     1.3;
+             maxFirstLayerThickness 0.005;
+             allowDiscontinuity 0;
+        }
+    }
+
+
+    optimiseLayer 1;
+
+    optimisationParameters
+    {
+        nSmoothNormals                  3;
+        relThicknessTol 		0.1;
+        featureSizeFactor 		0.3;
+        reCalculateNormals 		1; 
+        maxNumIterations 		5;
+    }
+
+
+   
+}
+
+
+renameBoundary
+{
+	newPatchNames
+	{
+		"xMin"
+		{
+			newName inlet;
+			type patch;
+		}
+	 	"xMax"	
+		{
+			newName outlet;
+			type patch;
+		}
+	 	"yMin"	
+		{
+			newName lowerWall;
+			type wall;
+		}
+	    	"yMax"	
+		{
+			newName upperWall;
+			type wall;
+		}
+	  	"zMin"
+		{
+			newName back;
+			type wall;
+		}
+		"zMax"	
+		{
+			newName front;
+			type wall;
+		}
+		"solid"
+		{
+			newName ahmedbodyGroup;
+			type wall;
+		}
+	}
+}
+
+
+
+
+// ************************************************************************* //

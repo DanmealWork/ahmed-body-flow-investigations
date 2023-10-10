@@ -1,0 +1,32 @@
+#!/bin/sh
+cd ${0%/*} || exit 1    # Run from this directory
+
+# Source tutorial run functions
+. $WM_PROJECT_DIR/bin/tools/RunFunctions
+
+surfaceGenerateBoundingBox constant/triSurface/ahmedbody.stl ahmedbodywithbox.stl 2.0 4 0 1.5 1.5 1.5
+
+surfaceFeatureEdges -angle 15 ahmedbodywithbox.stl ahmedbodywithbox.fms
+
+cartesianMesh
+
+checkMesh
+
+#simpleFoam 
+
+
+#runApplication blockMesh
+
+#runApplication surfaceFeatures
+
+#runApplication decomposePar -copyZero
+#runApplication snappyHexMesh -overwrite
+
+#runParallel patchSummary
+#runParallel potentialFoam
+#runParallel $(getApplication)
+
+#runApplication reconstructParMesh -constant
+#runApplication reconstructPar -latestTime
+
+#------------------------------------------------------------------------------
